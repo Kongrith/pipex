@@ -4,46 +4,68 @@
 
 int process1(t_data *data, char **argv, char **envp)
 {
-	int fd;
-	int nb_read;
-	char buf[BUFFER_SIZE + 1];
+	int		fd;
+	int		nb_read;
+	char	buf[BUFFER_SIZE + 1];
 
-	close(data->pd[0]);
+	close(data->pid[0]);
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		return (EXIT_FAILURE);
 	dup2(fd, 0);
 	close(fd);
-	dup2(data->pd[1], 1);
-	close(data->pd[1]);
+	dup2(data->pid[1], 1);
+	close(data->pid[1]);
 
 	nb_read = read(0, buf, BUFFER_SIZE);
-	// dprintf(1, "%d\n", nb_read);
 	buf[nb_read] = '\0';
-	// dprintf(1, "CMD1: %s\n", buf);
 
-	write(1, buf, 6);
+	// debugging purpose
+	dprintf(1, "%s\n", argv[2]);
+	// write(1, buf, 6);
 }
 
-void process2(t_data *data, char **argv, char **envp)
+int process2(t_data *data, char **argv, char **envp)
 {
+	int nb_read;
+	int status;
+	// int count;
 	char buf[BUFFER_SIZE + 1];
 
-	close(data->pd[1]);
-	dup2(data->pd[0], 0);
-	close(data->pd[0]);
-	// dprintf(1, "CMD2:\n");
-	read(0, buf, 5);
-	buf[5] = '\0';
-	write(1, buf, 5);
-	write(1, "\n", 1);
+	waitpid(-1, &status, 0);
+	nb_read = -1;
+	// count = 0;
+
+	close(data->pid[1]);
+	dup2(data->pid[0], 0);
+	close(data->pid[0]);
+
+	// debugging purpose
+	while (nb_read != 0)
+	{
+		nb_read = read(0, buf, BUFFER_SIZE);
+		if (nb_read == -1)
+		{
+			printf("Read error!\n");
+			return (1);
+		}
+		else if (nb_read == 0)
+		{
+			return (0);
+		}
+
+		buf[nb_read] = '\0';
+		dprintf(1, "%s", buf);
+		// count++;
+	}
+	return (0);
 }
 
 void pipex(t_data *data, char **argv, char **envp)
 {
 	pid_t pid; // ต้อง include <sys/types.h>
 
-	if (pipe(data->pd) == -1)
+	if (pipe(data->pid) == -1)
 	{
 		perror("pipe");
 		exit(EXIT_FAILURE);
