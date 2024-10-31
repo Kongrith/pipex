@@ -22,4 +22,12 @@ typedef struct s_data
 	// int flag;
 } t_data;
 
+#include "pipex.h"
+
+int ft_is_delimiter(char c);
+int ft_words_len(char *str);
+char *ft_get_word(char *str);
+char **ft_split(char *str);
+void ft_free(char **result);
+
 #endif

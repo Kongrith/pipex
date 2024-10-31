@@ -17,25 +17,28 @@ int process1(t_data *data, char **argv, char **envp)
 	dup2(data->pid[1], 1);
 	close(data->pid[1]);
 
-	nb_read = read(0, buf, BUFFER_SIZE);
-	buf[nb_read] = '\0';
+	// nb_read = read(0, buf, BUFFER_SIZE);
+	// buf[nb_read] = '\0';
 
 	// debugging purpose
-	dprintf(1, "%s\n", argv[2]);
+	// dprintf(1, "%s\n", argv[2]);
 	// write(1, buf, 6);
+	char *args[3];
+
+	args[0] = "grep";
+	args[1] = "a";
+	args[2] = NULL;
+	execve("/bin/grep", args, NULL);
 }
 
 int process2(t_data *data, char **argv, char **envp)
 {
 	int nb_read;
 	int status;
-	// int count;
 	char buf[BUFFER_SIZE + 1];
 
 	waitpid(-1, &status, 0);
 	nb_read = -1;
-	// count = 0;
-
 	close(data->pid[1]);
 	dup2(data->pid[0], 0);
 	close(data->pid[0]);
@@ -56,8 +59,8 @@ int process2(t_data *data, char **argv, char **envp)
 
 		buf[nb_read] = '\0';
 		dprintf(1, "%s", buf);
-		// count++;
 	}
+	dprintf(1, "%s\n", argv[4]);
 	return (0);
 }
 

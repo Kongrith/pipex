@@ -1,5 +1,7 @@
-AntAnt
-BatBat
-CatCat
-EggEgg
-FishFish
+Ant
+Bat
+Cat
+Dog
+Egg
+Fish
+Goat
