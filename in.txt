@@ -1,7 +1,0 @@
-Ant
-Bat
-Cat
-Dog
-Egg
-Fish
-Goat
