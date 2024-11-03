@@ -1,11 +1,11 @@
 #include "pipex.h"
 
-int ft_is_delimiter(char c)
+static int ft_is_delimiter(char c, char delim)
 {
-	return (c == ' ' || c == '\n' || c == '\t');
+	return (c == '\n' || c == '\t' || c == delim);
 }
 
-int ft_words_len(char *str)
+static int ft_words_len(char *str, char delim)
 {
 	int idx;
 	int length;
@@ -14,7 +14,7 @@ int ft_words_len(char *str)
 	length = 0;
 	while (str[idx] != '\0')
 	{
-		if (!ft_is_delimiter(str[idx]))
+		if (!ft_is_delimiter(str[idx], delim))
 		{
 			length++;
 			idx++;
@@ -25,19 +25,19 @@ int ft_words_len(char *str)
 	return (length);
 }
 
-char *ft_get_word(char *str)
+static char *ft_get_word(char *str, char delim)
 {
 	int idx;
 	char *word;
 
 	idx = 0;
-	while (str[idx] != '\0' && !ft_is_delimiter(str[idx]))
+	while (str[idx] != '\0' && !ft_is_delimiter(str[idx], delim))
 		idx++;
 	word = (char *)malloc(sizeof(char) * (idx + 1));
 	if (!word)
 		return (NULL);
 	idx = 0;
-	while (str[idx] != '\0' && !ft_is_delimiter(str[idx]))
+	while (str[idx] != '\0' && !ft_is_delimiter(str[idx], delim))
 	{
 		word[idx] = str[idx];
 		idx++;
@@ -46,26 +46,26 @@ char *ft_get_word(char *str)
 	return (word);
 }
 
-char **ft_split(char *str)
+char **ft_split(char *str, char delim)
 {
 	int idx;
 	char **split;
 
 	idx = 0;
-	split = (char **)malloc(sizeof(char *) * ft_words_len(str) + 1);
+	split = (char **)malloc(sizeof(char *) * ft_words_len(str, delim) + 1);
 	if (!split)
 		return (NULL);
 
 	while (*str)
 	{
-		while (*str && ft_is_delimiter(*str))
+		while (*str && ft_is_delimiter(*str, delim))
 			str++;
-		if (*str && !ft_is_delimiter(*str))
+		if (*str && !ft_is_delimiter(*str, delim))
 		{
-			split[idx] = ft_get_word(str);
+			split[idx] = ft_get_word(str, delim);
 			idx++;
 		}
-		while (*str && !ft_is_delimiter(*str))
+		while (*str && !ft_is_delimiter(*str, delim))
 			str++;
 	}
 

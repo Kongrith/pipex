@@ -1,12 +1,14 @@
-#include "pipex.h"
+/*
+./pipex in.txt "grep a" "wc -l" out.txt
+*/
 
-// ./pipex in.txt "ls -l" "wc -l" out.txt
+#include "pipex.h"
+#include <string.h>
 
 int process1(t_data *data, char **argv, char **envp)
 {
-	int		fd;
-	int		nb_read;
-	char	buf[BUFFER_SIZE + 1];
+	int fd;
+	char **args;
 
 	close(data->pid[0]);
 	fd = open(argv[1], O_RDONLY);
@@ -16,34 +18,15 @@ int process1(t_data *data, char **argv, char **envp)
 	close(fd);
 	dup2(data->pid[1], 1);
 	close(data->pid[1]);
-
-	// nb_read = read(0, buf, BUFFER_SIZE);
-	// buf[nb_read] = '\0';
-
-	// debugging purpose
-	// dprintf(1, "%s\n", argv[2]);
-	// write(1, buf, 6);
-	// char *args[3];
-	char **args;
-	args = ft_split(argv[2]);
-
-	// args[0] = "grep";
-	// args[1] = "a";
-	// args[2] = NULL;
-	execve("/bin/grep", args, NULL);
+	execve(data->cmd1, data->cmd1_arr, NULL);
+	return (0);
 }
 
 int process2(t_data *data, char **argv, char **envp)
 {
 	int fd;
-	int nb_read;
-	int status;
-	char buf[BUFFER_SIZE + 1];
 	char **args;
 
-	// waitpid(-1, &status, 0);
-	wait(NULL);
-	nb_read = -1;
 	close(data->pid[1]);
 	fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd == -1)
@@ -51,34 +34,13 @@ int process2(t_data *data, char **argv, char **envp)
 	dup2(fd, 1);
 	close(fd);
 	dup2(data->pid[0], 0);
-	close(data->pid[0]);
-
-	args = ft_split(argv[3]);
-	execve("/bin/wc", args, NULL);
-	// debugging purpose
-	// while (nb_read != 0)
-	// {
-	// 	nb_read = read(0, buf, BUFFER_SIZE);
-	// 	if (nb_read == -1)
-	// 	{
-	// 		printf("Read error!\n");
-	// 		return (1);
-	// 	}
-	// 	else if (nb_read == 0)
-	// 	{
-	// 		return (0);
-	// 	}
-
-	// 	buf[nb_read] = '\0';
-	// 	dprintf(1, "%s", buf);
-	// }
-	// dprintf(2, "%s\n", argv[4]);
+	execve(data->cmd2, data->cmd2_arr, NULL);
 	return (0);
 }
 
-void pipex(t_data *data, char **argv, char **envp)
+void ipc_setup(t_data *data, char **argv, char **envp)
 {
-	pid_t pid; // ต้อง include <sys/types.h>
+	pid_t pid;
 
 	if (pipe(data->pid) == -1)
 	{
@@ -89,25 +51,51 @@ void pipex(t_data *data, char **argv, char **envp)
 	if (pid == -1)
 	{
 		perror("fork");
-		exit(EXIT_FAILURE); // ต้อง include <stdlib.h>
+		exit(EXIT_FAILURE);
 	}
 	if (pid == 0)
 		process1(data, argv, envp);
 	else
 	{
-		wait(NULL); // ต้อง include <sys/wait.h>
+		waitpid(pid, NULL, 0);
 		process2(data, argv, envp);
 	}
+}
+
+void pipex(t_data *data, char **argv, char **envp)
+{
+	parse_commands(data);
+	ipc_setup(data, argv, envp);
+	// clean_up();
 }
 
 int main(int argc, char **argv, char **envp)
 {
 	t_data data;
 
-	if (!envp)
-		printf("Error: Empty ENV !!\n");
 	if (argc != 5)
-		printf("Example Usage: ./pipex infile 'ls -l' 'wc -l' outfile\n");
-	pipex(&data, argv, envp);
+		printf("Example Usage: ./pipex <infile> 'CMD1' 'CMD2' <outfile>\n");
+	else
+	{
+		if (!envp)
+			printf("Error: Empty ENV !!\n");
+		if (open(argv[1], O_RDONLY) == -1)
+		{
+			// ft_strjoin("-bash:", arv[1]);
+			perror(ft_strjoin("-bash: ", argv[1]));
+			// perror("-bash: inn.txt");
+			exit(EXIT_FAILURE);
+		}
+		if (access(argv[1], R_OK) == -1)
+		{
+			perror("aaaaaaaaaaa");
+			exit(EXIT_FAILURE);
+		}
+		// printf("Error: No Read Permission !!\n");
+		get_path_arr(&data, envp);
+		data.cmd1_arr = ft_split(argv[2], ' ');
+		data.cmd2_arr = ft_split(argv[3], ' ');
+		pipex(&data, argv, envp);
+	}
 	return (0);
 }
