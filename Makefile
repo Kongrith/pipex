@@ -4,7 +4,7 @@ HEADER = pipex.h
 CXX = cc
 CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 
-SRCS = pipex.c ft_split.c ft_strncmp.c ft_strjoin.c ft_strlcpy.c utils.c
+SRCS = pipex.c ft_split.c ft_strncmp.c ft_strjoin.c ft_strlcpy.c ft_strchr.c utils.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)

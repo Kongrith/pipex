@@ -55,8 +55,17 @@ void parse_commands(t_data *data)
 	while (data->path_arr[i])
 	{
 		path = ft_strjoin(data->path_arr[i], "/");
-		cmd1_path = ft_strjoin(path, data->cmd1_arr[0]);
-		cmd2_path = ft_strjoin(path, data->cmd2_arr[0]);
+		if (ft_strchr(data->cmd1_arg[0], '/') == NULL)
+			cmd1_path = ft_strjoin(path, data->cmd1_arg[0]);
+		else
+			cmd1_path = data->cmd1_arg[0];
+		if (ft_strchr(data->cmd2_arg[0], '/') == NULL)
+			cmd2_path = ft_strjoin(path, data->cmd2_arg[0]);
+		else
+			cmd2_path = data->cmd2_arg[0];
+		// dprintf(2, "cmd1_path: %s\n", cmd1_path);
+		// dprintf(2, "cmd2_path: %s\n", cmd2_path);
+
 		if (access(cmd1_path, F_OK) == 0 && access(cmd2_path, F_OK) == 0)
 		{
 			data->cmd1 = cmd1_path;

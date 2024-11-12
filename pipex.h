@@ -17,8 +17,8 @@ typedef struct s_data
 	// int outfile;
 	pid_t pid[2];
 	char **path_arr;
-	char **cmd1_arr;
-	char **cmd2_arr;
+	char **cmd1_arg;
+	char **cmd2_arg;
 	char *cmd1;
 	char *cmd2;
 	// int i;
@@ -40,5 +40,6 @@ size_t ft_strlcpy(char *dst, const char *src, size_t size);
 void ipc_setup(t_data *data, char **argv, char **envp);
 void parse_commands(t_data *data);
 void get_path_arr(t_data *data, char **envp);
+char *ft_strchr(const char *s, int c);
 
 #endif

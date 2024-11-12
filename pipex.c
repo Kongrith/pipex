@@ -18,7 +18,14 @@ int process1(t_data *data, char **argv, char **envp)
 	close(fd);
 	dup2(data->pid[1], 1);
 	close(data->pid[1]);
-	execve(data->cmd1, data->cmd1_arr, NULL);
+	if (access(data->cmd1, R_OK) == -1)
+	{
+		write(2, data->cmd1_arg[0], strlen(data->cmd1_arg[0]));
+		write(2, ": command not found", 20);
+		write(2, "\n", 1);
+		exit(EXIT_FAILURE);
+	}
+	execve(data->cmd1, data->cmd1_arg, NULL);
 	return (0);
 }
 
@@ -34,7 +41,14 @@ int process2(t_data *data, char **argv, char **envp)
 	dup2(fd, 1);
 	close(fd);
 	dup2(data->pid[0], 0);
-	execve(data->cmd2, data->cmd2_arr, NULL);
+	if (access(data->cmd2, R_OK) == -1)
+	{
+		write(2, data->cmd2_arg[0], strlen(data->cmd2_arg[0]));
+		write(2, ": command not found", 20);
+		write(2, "\n", 1);
+		exit(EXIT_FAILURE);
+	}
+	execve(data->cmd2, data->cmd2_arg, NULL);
 	return (0);
 }
 
@@ -64,6 +78,12 @@ void ipc_setup(t_data *data, char **argv, char **envp)
 
 void pipex(t_data *data, char **argv, char **envp)
 {
+	// const char str1[] = "bingrep";
+	// char ch = '/';
+
+	// printf(">>>%s\n", ft_strchr(str1, ch));
+
+	// if (ft_strchr(data->cmd1_arg[0], '/') == NULL)
 	parse_commands(data);
 	ipc_setup(data, argv, envp);
 	// clean_up();
@@ -78,23 +98,26 @@ int main(int argc, char **argv, char **envp)
 	else
 	{
 		if (!envp)
-			printf("Error: Empty ENV !!\n");
+		{
+			perror("empty env");
+			exit(EXIT_FAILURE);
+		}
 		if (open(argv[1], O_RDONLY) == -1)
 		{
-			// ft_strjoin("-bash:", arv[1]);
 			perror(ft_strjoin("-bash: ", argv[1]));
-			// perror("-bash: inn.txt");
 			exit(EXIT_FAILURE);
 		}
 		if (access(argv[1], R_OK) == -1)
 		{
-			perror("aaaaaaaaaaa");
+			perror("permission");
 			exit(EXIT_FAILURE);
 		}
-		// printf("Error: No Read Permission !!\n");
 		get_path_arr(&data, envp);
-		data.cmd1_arr = ft_split(argv[2], ' ');
-		data.cmd2_arr = ft_split(argv[3], ' ');
+		data.cmd1_arg = ft_split(argv[2], ' ');
+		data.cmd2_arg = ft_split(argv[3], ' ');
+
+		// printf("%s\n", data.cmd1_arg[0]);
+		// printf("%s\n", data.cmd2_arg[0]);
 		pipex(&data, argv, envp);
 	}
 	return (0);
