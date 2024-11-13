@@ -11,19 +11,14 @@
 // #define BUFFER_SIZE 11
 typedef struct s_data
 {
-	// char *limiter;
-	// char *file_path;
-	// int infile;
-	// int outfile;
 	pid_t pid[2];
 	char **path_arr;
 	char **cmd1_arg;
 	char **cmd2_arg;
 	char *cmd1;
 	char *cmd2;
-	// int i;
-	// int save;
-	// int flag;
+	int fd_infile;
+	int fd_outfile;
 } t_data;
 
 #include "pipex.h"
