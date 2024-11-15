@@ -19,7 +19,7 @@ typedef struct s_data
 	char *cmd2;
 	int fd_infile;
 	int fd_outfile;
-	int err_flag;
+	// int err_flag;
 } t_data;
 
 #include "pipex.h"

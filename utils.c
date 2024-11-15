@@ -6,21 +6,43 @@
 /*   By: khkomasa <khkomasa@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:05:54 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/15 17:12:08 by khkomasa         ###   ########.fr       */
+/*   Updated: 2024/11/16 03:40:21 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/*
+200: Invalid Agrument
+201: NO ENV PATH
+202: EMPTY ENV
+203: Can Not Pipe
+204: Can Not Fork
+*/
 void	err_handler(char *cmd_failure, int err_code)
 {
 	if (err_code == ENOENT)
 		perror(cmd_failure);
 	else if (err_code == EACCES)
 		perror(cmd_failure);
-
-	if (err_code == ENOENT || err_code == EACCES)
+	else if (err_code == 200)
+		write(2, cmd_failure, 56);
+	else if (err_code == 201)
+		write(2, cmd_failure, 25);
+	else if (err_code == 202)
+		write(2, cmd_failure, 23);
+	else if (err_code == 203)
+		write(2, cmd_failure, 5);
+	else if (err_code == 204)
+		write(2, cmd_failure, 5);
+	else if (err_code == 205)
+		write(2, cmd_failure, 7);
+	if (err_code == ENOENT || err_code == EACCES || err_code == 200 || err_code == 201 ||
+		err_code == 202 || err_code == 203 || err_code == 204)
 		exit(EXIT_FAILURE);
+	if (err_code == 205)
+		exit(126);
+	exit(1);
 }
 
 void	ft_free(char **result)
@@ -51,10 +73,11 @@ void	get_path_arr(t_data *data, char **envp)
 		i++;
 	}
 	if (data->path_arr == NULL)
-	{
-		write(2, "PATH variable is empty\n", 25);
-		exit(EXIT_FAILURE);
-	}
+		err_handler("PATH variable is empty\n", 202);
+	// {
+	// 	write(2, "PATH variable is empty\n", 25);
+	// 	exit(EXIT_FAILURE);
+	// }
 }
 
 void parse_in_commands(t_data *data, char *path)
