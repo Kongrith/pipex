@@ -39,4 +39,6 @@ void get_path_arr(t_data *data, char **envp);
 char *ft_strchr(const char *s, int c);
 void err_handler(char *cmd_failure, int err_code);
 size_t ft_strlen(const char *s);
+void ft_free(char **result);
+void cleanup(t_data *data);
 #endif

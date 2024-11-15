@@ -6,7 +6,7 @@
 /*   By: khkomasa <khkomasa@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:05:54 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/16 03:40:21 by khkomasa         ###   ########.fr       */
+/*   Updated: 2024/11/16 05:03:14 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	err_handler(char *cmd_failure, int err_code)
 		write(2, cmd_failure, 5);
 	else if (err_code == 205)
 		write(2, cmd_failure, 7);
+	if (cmd_failure)
+		free(cmd_failure);
 	if (err_code == ENOENT || err_code == EACCES || err_code == 200 || err_code == 201 ||
 		err_code == 202 || err_code == 203 || err_code == 204)
 		exit(EXIT_FAILURE);
@@ -91,16 +93,28 @@ void parse_in_commands(t_data *data, char *path)
 		cmd1_path = NULL;
 		path = ft_strjoin(data->path_arr[i], "/");
 		if (ft_strchr(data->cmd1_arg[0], '/') == NULL)
+		{
 			cmd1_path = ft_strjoin(path, data->cmd1_arg[0]);
+			// free(path);
+		}
 		else
+		{
 			cmd1_path = data->cmd1_arg[0];
+			// free(path);
+		}
+		free(path);
 		if (access(cmd1_path, F_OK) == 0 )
 		{
 			data->cmd1 = cmd1_path;
+			// free(cmd1_path);
 			break;
 		}
 		i++;
 	}
+	// if (path)
+	// 	free(path);
+	// if (cmd1_path)
+	// 	free(cmd1_path);
 }
 
 void parse_out_commands(t_data *data, char *path)
@@ -114,14 +128,37 @@ void parse_out_commands(t_data *data, char *path)
 		cmd2_path = NULL;
 		path = ft_strjoin(data->path_arr[i], "/");
 		if (ft_strchr(data->cmd2_arg[0], '/') == NULL)
+		{
 			cmd2_path = ft_strjoin(path, data->cmd2_arg[0]);
+			// free(path);
+		}
 		else
+		{
 			cmd2_path = data->cmd2_arg[0];
+			// free(path);
+		}
+		free(path);
 		if (access(cmd2_path, F_OK) == 0)
 		{
 			data->cmd2 = cmd2_path;
+			// free(cmd2_path);
 			break;
 		}
 		i++;
 	}
+}
+
+void cleanup(t_data *data)
+{
+	if (data->path_arr)
+		ft_free(data->path_arr);
+	if (data->cmd1_arg)
+		ft_free(data->cmd1_arg);
+	if (data->cmd2_arg)
+		ft_free(data->cmd2_arg);
+	// free(data);
+	// if (!data->cmd1)
+	// 	free(data->cmd1);
+	// if (!data->cmd2)
+	// 	free(data->cmd2);
 }

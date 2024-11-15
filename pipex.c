@@ -7,7 +7,7 @@
 void process1(t_data *data, char **argv, char **envp)
 {
 	int fd;
-	char **args;
+	// char **args;
 
 	fd = data->fd_infile;
 	close(data->pid[0]);
@@ -20,6 +20,7 @@ void process1(t_data *data, char **argv, char **envp)
 		write(2, data->cmd1_arg[0], ft_strlen(data->cmd1_arg[0]));
 		write(2, ": command not found", 20);
 		write(2, "\n", 1);
+		cleanup(data);
 		exit(127);
 	}
 	if (execve(data->cmd1, data->cmd1_arg, envp) == -1)
@@ -34,7 +35,7 @@ void process1(t_data *data, char **argv, char **envp)
 void process2(t_data *data, char **argv, char **envp)
 {
 	int fd;
-	char **args;
+	// char **args;
 
 	fd = data->fd_outfile;
 	close(data->pid[1]);
@@ -46,6 +47,7 @@ void process2(t_data *data, char **argv, char **envp)
 		write(2, data->cmd2_arg[0], ft_strlen(data->cmd2_arg[0]));
 		write(2, ": command not found", 20);
 		write(2, "\n", 1);
+		cleanup(data);
 		exit(127);
 	}
 	if (execve(data->cmd2, data->cmd2_arg, envp) == -1)
@@ -106,6 +108,7 @@ int main(int argc, char **argv, char **envp)
 {
 	t_data data;
 
+	// data = NULL;
 	if (argc != 5)
 		err_handler("Example Usage: ./pipex <infile> 'CMD1' 'CMD2' <outfile>\n", 200);
 	// {
@@ -131,6 +134,7 @@ int main(int argc, char **argv, char **envp)
 			// exit(EXIT_FAILURE);
 		}
 		pipex(&data, argv, envp);
+		cleanup(&data);
 	}
 	return (0);
 }
