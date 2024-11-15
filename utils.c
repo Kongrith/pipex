@@ -6,7 +6,7 @@
 /*   By: khkomasa <khkomasa@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:05:54 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/15 17:01:57 by khkomasa         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:12:08 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,10 @@ void	err_handler(char *cmd_failure, int err_code)
 		perror(cmd_failure);
 	else if (err_code == EACCES)
 		perror(cmd_failure);
-	// exit(EXIT_FAILURE);
+
+	if (err_code == ENOENT || err_code == EACCES)
+		exit(EXIT_FAILURE);
 }
-
-// size_t	ft_strlen(const char *s)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (s[i] != '\0')
-// 		++i;
-// 	return (i);
-// }
 
 void	ft_free(char **result)
 {
@@ -110,31 +102,3 @@ void parse_out_commands(t_data *data, char *path)
 		i++;
 	}
 }
-
-// void	parse_commands(t_data *data, char *path, int i)
-// {
-// 	char	*cmd1_path;
-// 	char	*cmd2_path;
-
-// 	while (data->path_arr[i])
-// 	{
-// 		cmd1_path = NULL;
-// 		cmd2_path = NULL;
-// 		path = ft_strjoin(data->path_arr[i], "/");
-// 		if (ft_strchr(data->cmd1_arg[0], '/') == NULL)
-// 			cmd1_path = ft_strjoin(path, data->cmd1_arg[0]);
-// 		else
-// 			cmd1_path = data->cmd1_arg[0];
-// 		if (ft_strchr(data->cmd2_arg[0], '/') == NULL)
-// 			cmd2_path = ft_strjoin(path, data->cmd2_arg[0]);
-// 		else
-// 			cmd2_path = data->cmd2_arg[0];
-// 		if (access(cmd1_path, F_OK) == 0 && access(cmd2_path, F_OK) == 0)
-// 		{
-// 			data->cmd1 = cmd1_path;
-// 			data->cmd2 = cmd2_path;
-// 			break ;
-// 		}
-// 		i++;
-// 	}
-// }

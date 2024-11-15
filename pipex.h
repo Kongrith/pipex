@@ -1,6 +1,6 @@
 #ifndef PIPEX_H
 # define PIPEX_H
-// #include <limits.h>
+
 # include <fcntl.h>
 # include <unistd.h>
 # include <sys/wait.h>
@@ -24,9 +24,6 @@ typedef struct s_data
 
 #include "pipex.h"
 
-// int ft_is_delimiter(char c);
-// int ft_words_len(char *str);
-// char *ft_get_word(char *str);
 char **ft_split(char *str, char delim);
 int ft_strncmp(const char *s1, const char *s2, size_t n);
 char *ft_strjoin(char const *s1, char const *s2);

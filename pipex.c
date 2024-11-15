@@ -21,8 +21,6 @@ int process1(t_data *data, char **argv, char **envp)
 		write(2, data->cmd1_arg[0], ft_strlen(data->cmd1_arg[0]));
 		write(2, ": command not found", 20);
 		write(2, "\n", 1);
-		// data->err_flag = 1;
-		// dprintf(2, "process1: %d\n", data->err_flag);
 		exit(127);
 	}
 	if (execve(data->cmd1, data->cmd1_arg, envp) == -1)
@@ -62,7 +60,6 @@ void ipc_setup(t_data *data, char **argv, char **envp)
 {
 	pid_t pid;
 
-	// data->err_flag = 0;
 	if (pipe(data->pid) == -1)
 	{
 		perror("pipe");
