@@ -7,8 +7,8 @@
 # include <sys/types.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <errno.h>
 
-// #define BUFFER_SIZE 11
 typedef struct s_data
 {
 	pid_t pid[2];
@@ -34,8 +34,12 @@ size_t ft_strlen(const char *s);
 size_t ft_strlcpy(char *dst, const char *src, size_t size);
 // void ft_free(char **result);
 void ipc_setup(t_data *data, char **argv, char **envp);
-void parse_commands(t_data *data);
+// void parse_commands(t_data *data, char *path, int i);
+void parse_in_commands(t_data *data, char *path);
+void parse_out_commands(t_data *data, char *path);
+
 void get_path_arr(t_data *data, char **envp);
 char *ft_strchr(const char *s, int c);
-
+void err_handler(char *cmd_failure, int err_code);
+size_t ft_strlen(const char *s);
 #endif
