@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 13:27:34 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/16 18:48:38 by toon             ###   ########.fr       */
+/*   Updated: 2024/11/16 19:33:17 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,11 @@ void	ipc_setup(t_data *data, char **envp)
 {
 	pid_t	pid;
 
+	data->pid[0] = 0;
+	data->pid[1] = 1;
 	if (pipe(data->pid) == -1)
 		err_handler("pipe\n", 202);
+	pid = fork();
 	if (pid == -1)
 		err_handler("fork\n", 203);
 	if (pid == 0)
