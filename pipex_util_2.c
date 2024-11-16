@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:30:30 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/16 18:38:45 by toon             ###   ########.fr       */
+/*   Updated: 2024/11/16 19:16:29 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	err_handler(char *cmd_failure, int err_code)
 	else if (err_code == EACCES)
 		perror(cmd_failure);
 	else if (err_code == 200)
-		write(2, cmd_failure, 56);
+		write(2, cmd_failure, 50);
 	else if (err_code == 201)
 		write(2, cmd_failure, 25);
 	else if (err_code == 202)
@@ -47,22 +47,22 @@ err_code == 201 || err_code == 202 || err_code == 203 || err_code == 204)
 	exit(EXIT_FAILURE);
 }
 
-void free_double_ptr(char **result)
+void	free_double_ptr(char **ptr)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (result[i])
+	while (ptr[i])
 	{
-		free(result[i]);
-		result[i] = NULL;
+		free(ptr[i]);
+		ptr[i] = NULL;
 		i++;
 	}
-	free(result);
-	result = NULL;
+	free(ptr);
+	ptr = NULL;
 }
 
-void free_ptr(char *ptr)
+void	free_ptr(char *ptr)
 {
 	if (ptr)
 	{
@@ -71,7 +71,7 @@ void free_ptr(char *ptr)
 	}
 }
 
-void cleanup(t_data *data)
+void	cleanup(t_data *data)
 {
 	if (data->path_arr)
 		free_double_ptr(data->path_arr);

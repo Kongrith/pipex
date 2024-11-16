@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khkomasa <khkomasa@student.42bangkok.com>  +#+  +:+       +#+        */
+/*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 13:27:34 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/16 13:38:37 by khkomasa         ###   ########.fr       */
+/*   Updated: 2024/11/16 18:48:38 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	process1(t_data *data, char **argv, char **envp)
+void	process1(t_data *data, char **envp)
 {
 	int	fd;
 
@@ -34,7 +34,7 @@ void	process1(t_data *data, char **argv, char **envp)
 		err_handler("execve\n", 205);
 }
 
-void	process2(t_data *data, char **argv, char **envp)
+void	process2(t_data *data, char **envp)
 {
 	int	fd;
 
@@ -55,7 +55,7 @@ void	process2(t_data *data, char **argv, char **envp)
 		err_handler("execve\n", 205);
 }
 
-void	ipc_setup(t_data *data, char **argv, char **envp)
+void	ipc_setup(t_data *data, char **envp)
 {
 	pid_t	pid;
 
@@ -64,9 +64,9 @@ void	ipc_setup(t_data *data, char **argv, char **envp)
 	if (pid == -1)
 		err_handler("fork\n", 203);
 	if (pid == 0)
-		process1(data, argv, envp);
+		process1(data, envp);
 	else
-		process2(data, argv, envp);
+		process2(data, envp);
 }
 
 void	pipex(t_data *data, char **argv, char **envp)
@@ -87,7 +87,7 @@ void	pipex(t_data *data, char **argv, char **envp)
 		err_handler(ft_strjoin("bash: ", argv[4]), errno);
 	parse_in_commands(data, NULL);
 	parse_out_commands(data, NULL);
-	ipc_setup(data, argv, envp);
+	ipc_setup(data, envp);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -101,13 +101,9 @@ int	main(int argc, char **argv, char **envp)
 		if (!envp)
 			err_handler("PATH variable is not set\n", 201);
 		if (access(argv[1], O_RDONLY) == -1)
-		{
 			err_handler(ft_strjoin("-bash: ", argv[1]), errno);
-		}
 		if (access(argv[1], R_OK) == -1)
-		{
 			err_handler(ft_strjoin("-bash: ", argv[1]), errno);
-		}
 		pipex(&data, argv, envp);
 	}
 	return (0);

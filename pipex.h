@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 13:41:12 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/16 18:38:53 by toon             ###   ########.fr       */
+/*   Updated: 2024/11/16 19:17:14 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,20 @@ typedef struct s_data
 }	t_data;
 
 // Utility Functions
-void get_path_arr(t_data *data, char **envp);
-void parse_in_commands(t_data *data, char *path);
-void parse_out_commands(t_data *data, char *path);
-void err_handler(char *cmd_failure, int err_code);
-void free_double_ptr(char **result);
-void cleanup(t_data *data);
-void free_ptr(char *ptr);
+void	get_path_arr(t_data *data, char **envp);
+void	parse_in_commands(t_data *data, char *path);
+void	parse_out_commands(t_data *data, char *path);
+void	err_handler(char *cmd_failure, int err_code);
+void	free_double_ptr(char **result);
+void	cleanup(t_data *data);
+void	free_ptr(char *ptr);
 
 // Libft Functions
-char **ft_split(char *str, char delim);
-char *ft_strchr(const char *s, int c);
-char *ft_strdup(const char *s1);
-char *ft_strjoin(char const *s1, char const *s2);
-size_t ft_strlen(const char *s);
+char	**ft_split(char *str, char delim);
+char	*ft_strchr(const char *s, int c);
+char	*ft_strdup(const char *s1);
+char	*ft_strjoin(char const *s1, char const *s2);
+size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif

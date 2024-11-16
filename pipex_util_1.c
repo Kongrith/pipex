@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:05:54 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/16 18:39:05 by toon             ###   ########.fr       */
+/*   Updated: 2024/11/16 18:43:28 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,12 @@ void	parse_in_commands(t_data *data, char *path)
 	cmd1_path = NULL;
 	while (data->path_arr[i])
 	{
-		// if (cmd1_path)
-		// {
-		// 	free(cmd1_path);
-		// 	cmd1_path = NULL;
-		// }
 		free_ptr(cmd1_path);
 		path = ft_strjoin(data->path_arr[i], "/");
 		if (ft_strchr(data->cmd1_arg[0], '/') == NULL)
-		{
 			cmd1_path = ft_strjoin(path, data->cmd1_arg[0]);
-		}
 		else
-		{
 			cmd1_path = ft_strdup(data->cmd1_arg[0]);
-		}
-		// if (path)
-		// {
-		// 	free(path);
-		// 	path = NULL;
-		// }
 		free_ptr(path);
 		if (access(cmd1_path, F_OK) == 0)
 		{
@@ -67,16 +53,6 @@ void	parse_in_commands(t_data *data, char *path)
 	}
 	free_ptr(path);
 	free_ptr(cmd1_path);
-	// if (path)
-	// {
-	// 	free(path);
-	// 	path = NULL;
-	// }
-	// if (cmd1_path)
-	// {
-	// 	free(cmd1_path);
-	// 	cmd1_path = NULL;
-	// }
 }
 
 void	parse_out_commands(t_data *data, char *path)
@@ -88,25 +64,13 @@ void	parse_out_commands(t_data *data, char *path)
 	cmd2_path = NULL;
 	while (data->path_arr[i])
 	{
-		if (cmd2_path)
-		{
-			free(cmd2_path);
-			cmd2_path = NULL;
-		}
+		free_ptr(cmd2_path);
 		path = ft_strjoin(data->path_arr[i], "/");
 		if (ft_strchr(data->cmd2_arg[0], '/') == NULL)
-		{
 			cmd2_path = ft_strjoin(path, data->cmd2_arg[0]);
-		}
 		else
-		{
 			cmd2_path = ft_strdup(data->cmd2_arg[0]);
-		}
-		if (path)
-		{
-			free(path);
-			path = NULL;
-		}
+		free_ptr(path);
 		if (access(cmd2_path, F_OK) == 0)
 		{
 			data->cmd2 = ft_strdup(cmd2_path);
@@ -114,14 +78,6 @@ void	parse_out_commands(t_data *data, char *path)
 		}
 		i++;
 	}
-	if (path)
-	{
-		free(path);
-		path = NULL;
-	}
-	if (cmd2_path)
-	{
-		free(cmd2_path);
-		cmd2_path = NULL;
-	}
+	free_ptr(path);
+	free_ptr(cmd2_path);
 }
