@@ -1,23 +1,23 @@
 #include "pipex.h"
 
-static char *ft_strdup(const char *s1)
-{
-	char *dest;
-	char *p;
-	int len;
+// static char *ft_strdup(const char *s1)
+// {
+// 	char *dest;
+// 	char *p;
+// 	int len;
 
-	len = 0;
-	while (s1[len])
-		len++;
-	dest = malloc((len + 1) * sizeof(char));
-	if (dest == NULL)
-		return (NULL);
-	p = dest;
-	while (*s1)
-		*p++ = *s1++;
-	*p = '\0';
-	return (dest);
-}
+// 	len = 0;
+// 	while (s1[len])
+// 		len++;
+// 	dest = malloc((len + 1) * sizeof(char));
+// 	if (dest == NULL)
+// 		return (NULL);
+// 	p = dest;
+// 	while (*s1)
+// 		*p++ = *s1++;
+// 	*p = '\0';
+// 	return (dest);
+// }
 
 static char *join_string(char *ptr, char const *s1, char const *s2)
 {

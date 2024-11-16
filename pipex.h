@@ -41,4 +41,5 @@ void err_handler(char *cmd_failure, int err_code);
 size_t ft_strlen(const char *s);
 void ft_free(char **result);
 void cleanup(t_data *data);
+char *ft_strdup(const char *s1);
 #endif
