@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:30:30 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/16 20:26:15 by toon             ###   ########.fr       */
+/*   Updated: 2024/11/16 21:02:28 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 203: Can Not Pipe
 204: Can Not Fork
 */
-void	err_handler(char *cmd_failure, int err_code)
+void err_handler(t_data *data, char *cmd_failure, int err_code)
 {
 	if (err_code == ENOENT)
 		perror(cmd_failure);
@@ -43,7 +43,8 @@ void	err_handler(char *cmd_failure, int err_code)
 		// dprintf(2, "cmd_failure: %s\n", cmd_failure);
 		// dprintf(2, "err_code: %d\n", err_code);
 		free(cmd_failure);
-		}
+		cleanup(data);
+	}
 
 	if (err_code == ENOENT || err_code == EACCES || err_code == 200 || \
 err_code == 201 || err_code == 202 || err_code == 203 || err_code == 204)

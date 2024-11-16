@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:05:54 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/16 19:48:59 by toon             ###   ########.fr       */
+/*   Updated: 2024/11/16 21:04:49 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	get_path_arr(t_data *data, char **envp)
 		i++;
 	}
 	if (data->path_arr == NULL)
-		err_handler("PATH variable is empty\n", 202);
+		err_handler(data, "PATH variable is empty\n", 202);
 }
 
 void	parse_in_commands(t_data *data, char *path)
