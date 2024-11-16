@@ -6,7 +6,7 @@
 /*   By: khkomasa <khkomasa@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:05:54 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/16 13:03:56 by khkomasa         ###   ########.fr       */
+/*   Updated: 2024/11/16 15:09:07 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ void	err_handler(char *cmd_failure, int err_code)
 		write(2, cmd_failure, 7);
 	if (cmd_failure)
 		free(cmd_failure);
-	if (err_code == ENOENT || err_code == EACCES || err_code == 200 || err_code == 201 ||
-		err_code == 202 || err_code == 203 || err_code == 204)
+	if (err_code == ENOENT || err_code == EACCES || err_code == 200 || \
+err_code == 201 || err_code == 202 || err_code == 203 || err_code == 204)
 		exit(EXIT_FAILURE);
 	if (err_code == 205)
 		exit(126);
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 void	ft_free(char **result)
@@ -76,16 +76,12 @@ void	get_path_arr(t_data *data, char **envp)
 	}
 	if (data->path_arr == NULL)
 		err_handler("PATH variable is empty\n", 202);
-	// {
-	// 	write(2, "PATH variable is empty\n", 25);
-	// 	exit(EXIT_FAILURE);
-	// }
 }
 
-void parse_in_commands(t_data *data, char *path)
+void	parse_in_commands(t_data *data, char *path)
 {
-	int i;
-	char *cmd1_path;
+	int		i;
+	char	*cmd1_path;
 
 	i = 0;
 	cmd1_path = NULL;
@@ -100,34 +96,23 @@ void parse_in_commands(t_data *data, char *path)
 		if (ft_strchr(data->cmd1_arg[0], '/') == NULL)
 		{
 			cmd1_path = ft_strjoin(path, data->cmd1_arg[0]);
-			// free(path);
 		}
 		else
 		{
-			// cmd1_path = data->cmd1_arg[0];
 			cmd1_path = ft_strdup(data->cmd1_arg[0]);
-			// free(path);
 		}
-		// free(path);
-		// dprintf(2, "parse in:%s\n", cmd1_path);
 		if (path)
 		{
 			free(path);
 			path = NULL;
 		}
-		if (access(cmd1_path, F_OK) == 0 )
+		if (access(cmd1_path, F_OK) == 0)
 		{
 			data->cmd1 = ft_strdup(cmd1_path);
-			// ft_free(data->path_arr);
-			// free(cmd1_path);
-			break;
+			break ;
 		}
 		i++;
 	}
-	// dprintf(2, "parse in:%s\n", cmd1_path);
-	// if (path)
-	// 	free(path);
-	// ft_free(data->path_arr);
 	if (path)
 	{
 		free(path);
@@ -138,14 +123,12 @@ void parse_in_commands(t_data *data, char *path)
 		free(cmd1_path);
 		cmd1_path = NULL;
 	}
-	// if (cmd1_path)
-	// 	free(cmd1_path);
 }
 
-void parse_out_commands(t_data *data, char *path)
+void	parse_out_commands(t_data *data, char *path)
 {
-	int i;
-	char *cmd2_path;
+	int		i;
+	char	*cmd2_path;
 
 	i = 0;
 	cmd2_path = NULL;
@@ -160,13 +143,10 @@ void parse_out_commands(t_data *data, char *path)
 		if (ft_strchr(data->cmd2_arg[0], '/') == NULL)
 		{
 			cmd2_path = ft_strjoin(path, data->cmd2_arg[0]);
-			// free(path);
 		}
 		else
 		{
-			// cmd2_path = data->cmd2_arg[0];
 			cmd2_path = ft_strdup(data->cmd2_arg[0]);
-			// free(path);
 		}
 		if (path)
 		{
@@ -176,13 +156,10 @@ void parse_out_commands(t_data *data, char *path)
 		if (access(cmd2_path, F_OK) == 0)
 		{
 			data->cmd2 = ft_strdup(cmd2_path);
-			// ft_free(data->path_arr);
-			// free(cmd2_path);
-			break;
+			break ;
 		}
 		i++;
 	}
-	// dprintf(2,"parse in\n");
 	if (path)
 	{
 		free(path);
@@ -193,26 +170,18 @@ void parse_out_commands(t_data *data, char *path)
 		free(cmd2_path);
 		cmd2_path = NULL;
 	}
-	// if (cmd2_path)
-	// 	free(cmd2_path);
-	// if (data->path_arr)
-	// 	ft_free(data->path_arr);
-	// ft_free(data->path_arr);
-
 }
 
-void cleanup(t_data *data)
+void	cleanup(t_data *data)
 {
-
 	if (data->path_arr)
-		ft_free(data->path_arr);
+		ft_free (data->path_arr);
 	if (data->cmd1_arg)
-		ft_free(data->cmd1_arg);
+		ft_free (data->cmd1_arg);
 	if (data->cmd2_arg)
-		ft_free(data->cmd2_arg);
+		ft_free (data->cmd2_arg);
 	if (data->cmd1)
-		free(data->cmd1);
+		free (data->cmd1);
 	if (data->cmd2)
 		free(data->cmd2);
-	// free(data);
 }

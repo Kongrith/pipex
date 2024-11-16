@@ -6,15 +6,15 @@
 /*   By: khkomasa <khkomasa@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 17:29:42 by kkomasat          #+#    #+#             */
-/*   Updated: 2024/11/15 16:39:24 by khkomasa         ###   ########.fr       */
+/*   Updated: 2024/11/16 15:09:51 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-size_t ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (s[i] != '\0')

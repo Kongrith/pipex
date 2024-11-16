@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: khkomasa <khkomasa@student.42bangkok.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/16 13:44:39 by khkomasa          #+#    #+#             */
+/*   Updated: 2024/11/16 14:19:59 by khkomasa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
-static int ft_is_delimiter(char c, char delim)
+static int	ft_is_delimiter(char c, char delim)
 {
 	return (c == '\n' || c == '\t' || c == delim);
 }
 
-static int ft_words_len(char *str, char delim)
+static int	ft_words_len(char *str, char delim)
 {
-	int idx;
-	int length;
+	int	idx;
+	int	length;
 
 	idx = 0;
 	length = 0;
@@ -25,10 +37,10 @@ static int ft_words_len(char *str, char delim)
 	return (length);
 }
 
-static char *ft_get_word(char *str, char delim)
+static	char	*ft_get_word(char *str, char delim)
 {
-	int idx;
-	char *word;
+	int		idx;
+	char	*word;
 
 	idx = 0;
 	while (str[idx] != '\0' && !ft_is_delimiter(str[idx], delim))
@@ -46,16 +58,15 @@ static char *ft_get_word(char *str, char delim)
 	return (word);
 }
 
-char **ft_split(char *str, char delim)
+char	**ft_split(char *str, char delim)
 {
-	int idx;
-	char **split;
+	int		idx;
+	char	**split;
 
 	idx = 0;
 	split = (char **)malloc(sizeof(char *) * ft_words_len(str, delim) + 1);
 	if (!split)
 		return (NULL);
-
 	while (*str)
 	{
 		while (*str && ft_is_delimiter(*str, delim))
@@ -68,7 +79,6 @@ char **ft_split(char *str, char delim)
 		while (*str && !ft_is_delimiter(*str, delim))
 			str++;
 	}
-
 	split[idx] = NULL;
 	return (split);
 }

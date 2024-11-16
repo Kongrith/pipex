@@ -1,28 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: khkomasa <khkomasa@student.42bangkok.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/16 13:39:54 by khkomasa          #+#    #+#             */
+/*   Updated: 2024/11/16 13:40:33 by khkomasa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
-// static char *ft_strdup(const char *s1)
-// {
-// 	char *dest;
-// 	char *p;
-// 	int len;
-
-// 	len = 0;
-// 	while (s1[len])
-// 		len++;
-// 	dest = malloc((len + 1) * sizeof(char));
-// 	if (dest == NULL)
-// 		return (NULL);
-// 	p = dest;
-// 	while (*s1)
-// 		*p++ = *s1++;
-// 	*p = '\0';
-// 	return (dest);
-// }
-
-static char *join_string(char *ptr, char const *s1, char const *s2)
+static char	*join_string(char *ptr, char const *s1, char const *s2)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	while (s1[i] != '\0')
@@ -40,11 +33,11 @@ static char *join_string(char *ptr, char const *s1, char const *s2)
 	return (ptr);
 }
 
-char *ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char *ptr;
-	size_t len1;
-	size_t len2;
+	char	*ptr;
+	size_t	len1;
+	size_t	len2;
 
 	if (!s1 && !s2)
 		return (ft_strdup(""));
