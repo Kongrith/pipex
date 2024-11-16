@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:30:30 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/16 19:16:29 by khkomasa         ###   ########.fr       */
+/*   Updated: 2024/11/16 20:26:15 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,14 @@ void	err_handler(char *cmd_failure, int err_code)
 		write(2, cmd_failure, 5);
 	else if (err_code == 205)
 		write(2, cmd_failure, 7);
-	if (cmd_failure)
+	if (cmd_failure && err_code != 200 && err_code != 201 && err_code != 202 &&
+		err_code != 203 && err_code != 204 && err_code != 205)
+	{
+		// dprintf(2, "cmd_failure: %s\n", cmd_failure);
+		// dprintf(2, "err_code: %d\n", err_code);
 		free(cmd_failure);
+		}
+
 	if (err_code == ENOENT || err_code == EACCES || err_code == 200 || \
 err_code == 201 || err_code == 202 || err_code == 203 || err_code == 204)
 		exit(EXIT_FAILURE);
@@ -67,7 +73,7 @@ void	free_ptr(char *ptr)
 	if (ptr)
 	{
 		free(ptr);
-		ptr = NULL;
+		ptr = (void *) NULL;
 	}
 }
 

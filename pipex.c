@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 13:27:34 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/16 19:33:17 by toon             ###   ########.fr       */
+/*   Updated: 2024/11/16 20:36:36 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ void	ipc_setup(t_data *data, char **envp)
 	data->pid[0] = 0;
 	data->pid[1] = 1;
 	if (pipe(data->pid) == -1)
-		err_handler("pipe\n", 202);
+		err_handler("pipe\n", 203);
 	pid = fork();
 	if (pid == -1)
-		err_handler("fork\n", 203);
+		err_handler("fork\n", 204);
 	if (pid == 0)
 		process1(data, envp);
 	else
@@ -85,9 +85,9 @@ void	pipex(t_data *data, char **argv, char **envp)
 	data->fd_infile = open(argv[1], O_RDONLY);
 	if (data->fd_infile == -1)
 		err_handler(ft_strjoin("bash: ", argv[1]), errno);
-	data->fd_outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (data->fd_outfile == -1)
-		err_handler(ft_strjoin("bash: ", argv[4]), errno);
+	// data->fd_outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	// if (data->fd_outfile == -1)
+	// 	err_handler(ft_strjoin("bash: ", argv[4]), errno);
 	parse_in_commands(data, NULL);
 	parse_out_commands(data, NULL);
 	ipc_setup(data, envp);
@@ -103,6 +103,9 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (!envp)
 			err_handler("PATH variable is not set\n", 201);
+		// data.fd_outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		// if (data.fd_outfile == -1)
+		// 	err_handler(ft_strjoin("bash: ", argv[4]), errno);
 		if (access(argv[1], O_RDONLY) == -1)
 			err_handler(ft_strjoin("-bash: ", argv[1]), errno);
 		if (access(argv[1], R_OK) == -1)
