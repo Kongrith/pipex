@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 13:27:34 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/16 21:04:14 by toon             ###   ########.fr       */
+/*   Updated: 2024/11/16 21:37:29 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,10 @@ void	process2(t_data *data, char **envp)
 		err_handler(data, "execve\n", 205);
 }
 
-void ipc_setup(t_data *data, char **argv, char **envp)
+void	ipc_setup(t_data *data, char **argv, char **envp)
 {
 	pid_t	pid;
 
-	// data->pid[0] = 0;
-	// data->pid[1] = 1;
 	get_path_arr(data, envp);
 	data->cmd1_arg = ft_split(argv[2], ' ');
 	data->cmd2_arg = ft_split(argv[3], ' ');
@@ -71,26 +69,10 @@ void ipc_setup(t_data *data, char **argv, char **envp)
 	data->id = fork();
 	if (data->id == -1)
 		err_handler(data, "fork\n", 204);
-	// if (pid == 0)
-	// 	process1(data, envp);
-	// else
-	// 	process2(data, envp);
 }
 
 void	pipex(t_data *data, char **argv, char **envp)
 {
-	// get_path_arr(data, envp);
-	// data->cmd1_arg = ft_split(argv[2], ' ');
-	// data->cmd2_arg = ft_split(argv[3], ' ');
-	// data->fd_infile = open(argv[1], O_RDONLY);
-	// if (data->fd_infile == -1)
-	// 	err_handler(ft_strjoin("bash: ", argv[1]), errno);
-	// data->fd_outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	// if (data->fd_outfile == -1)
-	// 	err_handler(ft_strjoin("bash: ", argv[4]), errno);
-	// parse_in_commands(data, NULL);
-	// parse_out_commands(data, NULL);
-	// ipc_setup(data, envp);
 	if (data->id == 0)
 	{
 		if (access(argv[1], O_RDONLY) == -1)
@@ -109,11 +91,6 @@ void	pipex(t_data *data, char **argv, char **envp)
 			err_handler(data, ft_strjoin("bash: ", argv[4]), errno);
 		process2(data, envp);
 	}
-	// 	process1(data, envp);
-	// else
-	// 	process2(data, envp);
-
-
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -126,16 +103,13 @@ int	main(int argc, char **argv, char **envp)
 	data.cmd1 = NULL;
 	data.cmd2 = NULL;
 	if (argc != 5)
-		err_handler(&data, "Example: ./pipex <infile> 'CMD1' 'CMD2' <outfile>\n", 200);
+		err_handler(&data, "hint: ./pipex <infile> 'CMD1' 'CMD2'\
+ <outfile>\n", 200);
 	else
 	{
 		if (!envp)
 			err_handler(&data, "PATH variable is not set\n", 201);
 		ipc_setup(&data, argv, envp);
-		// if (access(argv[1], O_RDONLY) == -1)
-		// 	err_handler(ft_strjoin("-bash: ", argv[1]), errno);
-		// if (access(argv[1], R_OK) == -1)
-		// 	err_handler(ft_strjoin("-bash: ", argv[1]), errno);
 		pipex(&data, argv, envp);
 	}
 	return (0);

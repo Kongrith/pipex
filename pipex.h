@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 13:41:12 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/16 21:02:55 by toon             ###   ########.fr       */
+/*   Updated: 2024/11/16 21:31:41 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 typedef struct s_data
 {
 	pid_t	pid[2];
-	pid_t id;
-	char **path_arr;
+	pid_t	id;
+	char	**path_arr;
 	char	**cmd1_arg;
 	char	**cmd2_arg;
 	char	*cmd1;
@@ -38,8 +38,9 @@ typedef struct s_data
 void	get_path_arr(t_data *data, char **envp);
 void	parse_in_commands(t_data *data, char *path);
 void	parse_out_commands(t_data *data, char *path);
-void err_handler(t_data *data, char *cmd_failure, int err_code);
-void free_double_ptr(char **result);
+void	exit_handler(t_data *data, char *cmd_failure, int err_code);
+void	err_handler(t_data *data, char *cmd_failure, int err_code);
+void	free_double_ptr(char **result);
 void	cleanup(t_data *data);
 void	free_ptr(char *ptr);
 
