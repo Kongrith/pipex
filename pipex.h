@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khkomasa <khkomasa@student.42bangkok.com>  +#+  +:+       +#+        */
+/*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 13:41:12 by khkomasa          #+#    #+#             */
-/*   Updated: 2024/11/16 14:19:14 by khkomasa         ###   ########.fr       */
+/*   Updated: 2024/11/16 15:14:47 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,12 @@ char	**ft_split(char *str, char delim);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 void	ipc_setup(t_data *data, char **argv, char **envp);
 void	parse_in_commands(t_data *data, char *path);
 void	parse_out_commands(t_data *data, char *path);
 void	get_path_arr(t_data *data, char **envp);
 char	*ft_strchr(const char *s, int c);
 void	err_handler(char *cmd_failure, int err_code);
-size_t	ft_strlen(const char *s);
 void	ft_free(char **result);
 void	cleanup(t_data *data);
 char	*ft_strdup(const char *s1);
